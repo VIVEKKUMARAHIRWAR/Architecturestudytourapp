@@ -1,0 +1,358 @@
+// City Database - Comprehensive architecture study tour destinations in India
+
+import { City, LearningGoal } from './types';
+
+export const CITIES: City[] = [
+  {
+    id: 'ahmedabad',
+    city: 'Ahmedabad',
+    state: 'Gujarat',
+    region: 'West',
+    categories: ['Principles', 'Climate', 'Heritage'],
+    ideal_years: [1, 2, 3],
+    learning_focus: ['Architectural Principles', 'Climate Responsiveness', 'Heritage & Conservation', 'Spatial Organization'],
+    suggested_days: 2,
+    terrain: 'Plains',
+    urban_rural_index: 4,
+    heritage_contemporary_index: 3,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    risk_notes: 'Extreme heat in summer',
+    coordinates: { lat: 23.0225, lng: 72.5714 }
+  },
+  {
+    id: 'chandigarh',
+    city: 'Chandigarh',
+    state: 'Chandigarh',
+    region: 'North',
+    categories: ['Principles', 'Spatial', 'Bye-laws'],
+    ideal_years: [1, 2, 3],
+    learning_focus: ['Architectural Principles', 'Spatial Organization', 'Bye-laws & Regulations'],
+    suggested_days: 2,
+    terrain: 'Plains',
+    urban_rural_index: 5,
+    heritage_contemporary_index: 3,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 30.7333, lng: 76.7794 }
+  },
+  {
+    id: 'delhi',
+    city: 'Delhi',
+    state: 'Delhi',
+    region: 'North',
+    categories: ['Heritage', 'Principles', 'Construction'],
+    ideal_years: [1, 2, 3],
+    learning_focus: ['Heritage & Conservation', 'Architectural Principles', 'Construction Practices', 'Bye-laws & Regulations'],
+    suggested_days: 3,
+    terrain: 'Plains',
+    urban_rural_index: 5,
+    heritage_contemporary_index: 2,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 28.7041, lng: 77.1025 }
+  },
+  {
+    id: 'jaipur',
+    city: 'Jaipur',
+    state: 'Rajasthan',
+    region: 'North',
+    categories: ['Heritage', 'Climate', 'Principles'],
+    ideal_years: [1, 2],
+    learning_focus: ['Heritage & Conservation', 'Architectural Principles', 'Climate Responsiveness'],
+    suggested_days: 2,
+    terrain: 'Plains',
+    urban_rural_index: 4,
+    heritage_contemporary_index: 1,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 26.9124, lng: 75.7873 }
+  },
+  {
+    id: 'mumbai',
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    region: 'West',
+    categories: ['Construction', 'Bye-laws', 'Heritage'],
+    ideal_years: [2, 3],
+    learning_focus: ['Construction Practices', 'Bye-laws & Regulations', 'Heritage & Conservation'],
+    suggested_days: 2,
+    terrain: 'Coastal',
+    urban_rural_index: 5,
+    heritage_contemporary_index: 4,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 19.0760, lng: 72.8777 }
+  },
+  {
+    id: 'bangalore',
+    city: 'Bangalore',
+    state: 'Karnataka',
+    region: 'South',
+    categories: ['Climate', 'Spatial', 'Construction'],
+    ideal_years: [2, 3],
+    learning_focus: ['Climate Responsiveness', 'Spatial Organization', 'Construction Practices', 'Building Services'],
+    suggested_days: 2,
+    terrain: 'Plateau',
+    urban_rural_index: 5,
+    heritage_contemporary_index: 4,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 12.9716, lng: 77.5946 }
+  },
+  {
+    id: 'auroville',
+    city: 'Auroville',
+    state: 'Tamil Nadu',
+    region: 'South',
+    categories: ['Principles', 'Climate', 'Spatial'],
+    ideal_years: [1, 2],
+    learning_focus: ['Architectural Principles', 'Climate Responsiveness', 'Spatial Organization'],
+    suggested_days: 2,
+    terrain: 'Coastal',
+    urban_rural_index: 2,
+    heritage_contemporary_index: 5,
+    travel_nodes: ['Road', 'Flight'],
+    coordinates: { lat: 12.0047, lng: 79.8081 }
+  },
+  {
+    id: 'cochin',
+    city: 'Cochin',
+    state: 'Kerala',
+    region: 'South',
+    categories: ['Heritage', 'Climate', 'Spatial'],
+    ideal_years: [1, 2],
+    learning_focus: ['Heritage & Conservation', 'Climate Responsiveness', 'Spatial Organization'],
+    suggested_days: 2,
+    terrain: 'Coastal',
+    urban_rural_index: 4,
+    heritage_contemporary_index: 2,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 9.9312, lng: 76.2673 }
+  },
+  {
+    id: 'puducherry',
+    city: 'Puducherry',
+    state: 'Puducherry',
+    region: 'South',
+    categories: ['Heritage', 'Principles'],
+    ideal_years: [1, 2],
+    learning_focus: ['Heritage & Conservation', 'Architectural Principles'],
+    suggested_days: 1,
+    terrain: 'Coastal',
+    urban_rural_index: 3,
+    heritage_contemporary_index: 1,
+    travel_nodes: ['Road', 'Flight'],
+    coordinates: { lat: 11.9416, lng: 79.8083 }
+  },
+  {
+    id: 'kolkata',
+    city: 'Kolkata',
+    state: 'West Bengal',
+    region: 'East',
+    categories: ['Heritage', 'Construction', 'Bye-laws'],
+    ideal_years: [2, 3],
+    learning_focus: ['Heritage & Conservation', 'Construction Practices', 'Bye-laws & Regulations'],
+    suggested_days: 2,
+    terrain: 'Plains',
+    urban_rural_index: 5,
+    heritage_contemporary_index: 2,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 22.5726, lng: 88.3639 }
+  },
+  {
+    id: 'bhubaneswar',
+    city: 'Bhubaneswar',
+    state: 'Odisha',
+    region: 'East',
+    categories: ['Heritage', 'Principles'],
+    ideal_years: [1, 2],
+    learning_focus: ['Heritage & Conservation', 'Architectural Principles'],
+    suggested_days: 2,
+    terrain: 'Plains',
+    urban_rural_index: 4,
+    heritage_contemporary_index: 1,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 20.2961, lng: 85.8245 }
+  },
+  {
+    id: 'guwahati',
+    city: 'Guwahati',
+    state: 'Assam',
+    region: 'Northeast',
+    categories: ['Climate', 'Spatial'],
+    ideal_years: [2],
+    learning_focus: ['Climate Responsiveness', 'Spatial Organization'],
+    suggested_days: 2,
+    terrain: 'Hills',
+    urban_rural_index: 4,
+    heritage_contemporary_index: 3,
+    travel_nodes: ['Road', 'Flight'],
+    coordinates: { lat: 26.1445, lng: 91.7362 }
+  },
+  {
+    id: 'shillong',
+    city: 'Shillong',
+    state: 'Meghalaya',
+    region: 'Northeast',
+    categories: ['Climate', 'Spatial'],
+    ideal_years: [2],
+    learning_focus: ['Climate Responsiveness', 'Spatial Organization'],
+    suggested_days: 2,
+    terrain: 'Hills',
+    urban_rural_index: 3,
+    heritage_contemporary_index: 3,
+    travel_nodes: ['Road'],
+    coordinates: { lat: 25.5788, lng: 91.8933 }
+  },
+  {
+    id: 'hampi',
+    city: 'Hampi',
+    state: 'Karnataka',
+    region: 'South',
+    categories: ['Heritage', 'Principles'],
+    ideal_years: [1, 2],
+    learning_focus: ['Heritage & Conservation', 'Architectural Principles'],
+    suggested_days: 2,
+    terrain: 'Rocky',
+    urban_rural_index: 1,
+    heritage_contemporary_index: 1,
+    travel_nodes: ['Road'],
+    risk_notes: 'Remote location, limited accessibility',
+    coordinates: { lat: 15.3350, lng: 76.4600 }
+  },
+  {
+    id: 'fatehpur-sikri',
+    city: 'Fatehpur Sikri',
+    state: 'Uttar Pradesh',
+    region: 'North',
+    categories: ['Heritage', 'Principles', 'Climate'],
+    ideal_years: [1, 2],
+    learning_focus: ['Heritage & Conservation', 'Architectural Principles', 'Climate Responsiveness'],
+    suggested_days: 1,
+    terrain: 'Plains',
+    urban_rural_index: 2,
+    heritage_contemporary_index: 1,
+    travel_nodes: ['Road'],
+    coordinates: { lat: 27.0945, lng: 77.6610 }
+  },
+  {
+    id: 'hyderabad',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    region: 'South',
+    categories: ['Heritage', 'Construction', 'Bye-laws'],
+    ideal_years: [2, 3],
+    learning_focus: ['Heritage & Conservation', 'Construction Practices', 'Bye-laws & Regulations'],
+    suggested_days: 2,
+    terrain: 'Plateau',
+    urban_rural_index: 5,
+    heritage_contemporary_index: 3,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 17.3850, lng: 78.4867 }
+  },
+  {
+    id: 'indore',
+    city: 'Indore',
+    state: 'Madhya Pradesh',
+    region: 'West',
+    categories: ['Construction', 'Bye-laws'],
+    ideal_years: [2, 3],
+    learning_focus: ['Construction Practices', 'Bye-laws & Regulations'],
+    suggested_days: 1,
+    terrain: 'Plateau',
+    urban_rural_index: 4,
+    heritage_contemporary_index: 4,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 22.7196, lng: 75.8577 }
+  },
+  {
+    id: 'khajuraho',
+    city: 'Khajuraho',
+    state: 'Madhya Pradesh',
+    region: 'North',
+    categories: ['Heritage', 'Principles'],
+    ideal_years: [1],
+    learning_focus: ['Heritage & Conservation', 'Architectural Principles'],
+    suggested_days: 1,
+    terrain: 'Plains',
+    urban_rural_index: 1,
+    heritage_contemporary_index: 1,
+    travel_nodes: ['Road', 'Flight'],
+    coordinates: { lat: 24.8318, lng: 79.9199 }
+  },
+  {
+    id: 'lavasa',
+    city: 'Lavasa',
+    state: 'Maharashtra',
+    region: 'West',
+    categories: ['Bye-laws', 'Construction', 'Spatial'],
+    ideal_years: [2, 3],
+    learning_focus: ['Bye-laws & Regulations', 'Construction Practices', 'Spatial Organization'],
+    suggested_days: 1,
+    terrain: 'Hills',
+    urban_rural_index: 3,
+    heritage_contemporary_index: 5,
+    travel_nodes: ['Road'],
+    coordinates: { lat: 18.4104, lng: 73.5080 }
+  },
+  {
+    id: 'varanasi',
+    city: 'Varanasi',
+    state: 'Uttar Pradesh',
+    region: 'North',
+    categories: ['Heritage', 'Spatial'],
+    ideal_years: [1, 2],
+    learning_focus: ['Heritage & Conservation', 'Spatial Organization'],
+    suggested_days: 2,
+    terrain: 'Plains',
+    urban_rural_index: 4,
+    heritage_contemporary_index: 1,
+    travel_nodes: ['Train', 'Road', 'Flight'],
+    coordinates: { lat: 25.3176, lng: 82.9739 }
+  }
+];
+
+export const LEARNING_GOALS_CONFIG: Record<LearningGoal, {
+  category: string;
+  ideal_years: number[];
+  description: string;
+  disabled_reason?: (year: number) => string | null;
+}> = {
+  'Architectural Principles': {
+    category: 'Understanding Architectural Principles',
+    ideal_years: [1, 2, 3],
+    description: 'Composition, proportion, scale, context, drawing-based learning',
+    disabled_reason: null
+  },
+  'Spatial Organization': {
+    category: 'Spatial Systems, Climate & Building Services',
+    ideal_years: [2, 3],
+    description: 'Spatial organization, planning principles',
+    disabled_reason: null
+  },
+  'Climate Responsiveness': {
+    category: 'Spatial Systems, Climate & Building Services',
+    ideal_years: [1, 2, 3],
+    description: 'Passive climate strategies, vernacular techniques',
+    disabled_reason: null
+  },
+  'Building Services': {
+    category: 'Spatial Systems, Climate & Building Services',
+    ideal_years: [2, 3],
+    description: 'Basic MEP systems, services integration',
+    disabled_reason: null
+  },
+  'Bye-laws & Regulations': {
+    category: 'Bye-laws, Construction & Professional Practice',
+    ideal_years: [3],
+    description: 'FAR, FSI, setbacks, regulatory frameworks',
+    disabled_reason: (year) => year === 1 ? 'Not covered in 1st Year curriculum' : null
+  },
+  'Construction Practices': {
+    category: 'Bye-laws, Construction & Professional Practice',
+    ideal_years: [2, 3],
+    description: 'Construction logistics, site management',
+    disabled_reason: (year) => year === 1 ? 'Not covered in 1st Year curriculum' : null
+  },
+  'Heritage & Conservation': {
+    category: 'Understanding Architectural Principles',
+    ideal_years: [1, 2, 3],
+    description: 'Historical architecture, conservation practices',
+    disabled_reason: null
+  }
+};
