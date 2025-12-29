@@ -1,6 +1,6 @@
 import { Circuit } from '../lib/types';
 import { CITIES } from '../lib/data';
-import { ChevronLeft, Edit, Download, Share2, MapPin, Clock, Award } from 'lucide-react';
+import { ChevronLeft, Edit, Download, Share2, MapPin, Clock, Award, ArrowRight, Train, Plane, Car, Building2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface CircuitDetailProps {
@@ -250,28 +250,71 @@ export function CircuitDetail({ circuit, onBack, onCustomize, onExport, onShare 
 
                 <div className="space-y-4">
                   <div className="bg-gradient-to-br from-[#f59e0b]/10 to-[#fbbf24]/10 border border-[#f59e0b]/20 rounded-2xl p-5 backdrop-blur-xl">
-                    <h4 className="text-[#fbbf24] mb-2 flex items-center gap-2">
+                    <h4 className="text-[#fbbf24] mb-3 flex items-center gap-2">
                       <Clock className="w-4 h-4" />
                       Morning (9:00 AM - 12:30 PM)
                     </h4>
+                    {day.morning_site && (
+                      <div className="mb-3 inline-flex items-center gap-2 bg-black/20 px-3 py-1.5 rounded-lg border border-white/5">
+                        <Building2 className="w-3 h-3 text-[#f59e0b]" />
+                        <span className="text-[#e8e8ee] text-sm font-medium">{day.morning_site}</span>
+                      </div>
+                    )}
                     <p className="text-[#a1a1b0]">{day.morning}</p>
                   </div>
 
                   <div className="bg-gradient-to-br from-[#6366f1]/10 to-[#8b5cf6]/10 border border-[#6366f1]/20 rounded-2xl p-5 backdrop-blur-xl">
-                    <h4 className="text-[#8b5cf6] mb-2 flex items-center gap-2">
+                    <h4 className="text-[#8b5cf6] mb-3 flex items-center gap-2">
                       <Clock className="w-4 h-4" />
                       Afternoon (2:00 PM - 5:30 PM)
                     </h4>
+                    {day.afternoon_site && (
+                      <div className="mb-3 inline-flex items-center gap-2 bg-black/20 px-3 py-1.5 rounded-lg border border-white/5">
+                        <Building2 className="w-3 h-3 text-[#8b5cf6]" />
+                        <span className="text-[#e8e8ee] text-sm font-medium">{day.afternoon_site}</span>
+                      </div>
+                    )}
                     <p className="text-[#a1a1b0]">{day.afternoon}</p>
                   </div>
 
-                  <div className="bg-gradient-to-br from-[#8b5cf6]/10 to-[#a78bfa]/10 border border-[#8b5cf6]/20 rounded-2xl p-5 backdrop-blur-xl">
-                    <h4 className="text-[#a78bfa] mb-2 flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      Evening (6:00 PM - 8:00 PM)
-                    </h4>
-                    <p className="text-[#a1a1b0]">{day.evening}</p>
-                  </div>
+                  {day.travel ? (
+                    <div className="bg-gradient-to-br from-[#10b981]/10 to-[#34d399]/10 border border-[#10b981]/20 rounded-2xl p-5 backdrop-blur-xl">
+                      <h4 className="text-[#34d399] mb-4 flex items-center gap-2">
+                        {day.travel.mode === 'Flight' ? <Plane className="w-4 h-4" /> : 
+                         day.travel.mode === 'Train' ? <Train className="w-4 h-4" /> : 
+                         <Car className="w-4 h-4" />}
+                        Travel to {day.travel.to}
+                      </h4>
+                      <div className="flex flex-wrap items-center gap-6 text-[#e8e8ee]">
+                        <div className="flex flex-col">
+                          <span className="text-[#a1a1b0] text-[10px] uppercase tracking-wider mb-1">From</span>
+                          <span className="font-medium">{day.travel.from}</span>
+                        </div>
+                        <ArrowRight className="text-[#10b981] w-4 h-4" />
+                        <div className="flex flex-col">
+                          <span className="text-[#a1a1b0] text-[10px] uppercase tracking-wider mb-1">To</span>
+                          <span className="font-medium">{day.travel.to}</span>
+                        </div>
+                        <div className="w-px h-8 bg-white/10 mx-2 hidden sm:block" />
+                        <div className="flex flex-col">
+                          <span className="text-[#a1a1b0] text-[10px] uppercase tracking-wider mb-1">Duration</span>
+                          <span className="font-medium">{day.travel.duration}</span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[#a1a1b0] text-[10px] uppercase tracking-wider mb-1">Distance</span>
+                          <span className="font-medium">{day.travel.distance}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-gradient-to-br from-[#8b5cf6]/10 to-[#a78bfa]/10 border border-[#8b5cf6]/20 rounded-2xl p-5 backdrop-blur-xl">
+                      <h4 className="text-[#a78bfa] mb-2 flex items-center gap-2">
+                        <Clock className="w-4 h-4" />
+                        Evening (6:00 PM - 8:00 PM)
+                      </h4>
+                      <p className="text-[#a1a1b0]">{day.evening}</p>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}

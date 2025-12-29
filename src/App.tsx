@@ -136,9 +136,25 @@ export default function App() {
   };
 
   const handleUpdateCircuit = (updatedCircuit: Circuit) => {
-    CircuitStorage.saveCircuit(updatedCircuit);
+    // Regenerate day plan to reflect any changes in cities or order
+    const cityObjects = updatedCircuit.cities
+      .map(id => CITIES.find(c => c.id === id))
+      .filter((c): c is typeof CITIES[0] => !!c);
+
+    const newDayPlan = CircuitEngine.generateDayPlan(
+      cityObjects,
+      updatedCircuit.learning_goals,
+      updatedCircuit.academic_year
+    );
+
+    const finalCircuit = {
+      ...updatedCircuit,
+      day_plan: newDayPlan
+    };
+
+    CircuitStorage.saveCircuit(finalCircuit);
     loadCircuits();
-    setCurrentCircuit(updatedCircuit);
+    setCurrentCircuit(finalCircuit);
     setView('detail');
     alert('Circuit updated successfully');
   };

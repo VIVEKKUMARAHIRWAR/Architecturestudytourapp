@@ -429,18 +429,36 @@ export class CircuitEngine {
     cities.forEach((city, index) => {
       const daysInCity = city.suggested_days;
       const cityFocus = city.learning_focus.filter(f => learningGoals.includes(f));
+      
+      // Get available sites for this city
+      const availableSites = [...(city.key_sites || [])].sort(() => Math.random() - 0.5);
+      let siteIndex = 0;
 
       for (let d = 0; d < daysInCity; d++) {
         const isArrivalDay = d === 0;
         const isDepartureDay = d === daysInCity - 1 && index < cities.length - 1;
 
+        // Determine sites for morning/afternoon
+        // Arrival day morning is for travel/settling, so no site visit
+        const morningSite = !isArrivalDay && siteIndex < availableSites.length ? availableSites[siteIndex++] : undefined;
+        const afternoonSite = siteIndex < availableSites.length ? availableSites[siteIndex++] : undefined;
+
+        // Determine travel details if leaving today
+        let travelDetails;
+        if (isDepartureDay && index < cities.length - 1) {
+          travelDetails = this.generateTravelDetails(city, cities[index + 1]);
+        }
+
         const activity: DayActivity = {
           day: currentDay,
           city: city.city,
-          morning: this.generateMorningActivity(city, cityFocus[d % cityFocus.length], isArrivalDay),
-          afternoon: this.generateAfternoonActivity(city, cityFocus[(d + 1) % cityFocus.length]),
+          morning: this.generateMorningActivity(city, cityFocus[d % cityFocus.length], isArrivalDay, morningSite),
+          morning_site: morningSite,
+          afternoon: this.generateAfternoonActivity(city, cityFocus[(d + 1) % cityFocus.length], afternoonSite),
+          afternoon_site: afternoonSite,
           evening: this.generateEveningActivity(academicYear, isDepartureDay),
-          learning_focus: cityFocus.slice(0, 2)
+          learning_focus: cityFocus.slice(0, 2),
+          travel: travelDetails
         };
 
         plan.push(activity);
@@ -451,7 +469,46 @@ export class CircuitEngine {
     return plan;
   }
 
-  private static generateMorningActivity(city: City, focus: LearningGoal, isArrival: boolean): string {
+  private static generateTravelDetails(from: City, to: City) {
+    const isSameRegion = from.region === to.region;
+    
+    // Determine mode
+    let mode = 'Train';
+    if (!isSameRegion && (from.travel_nodes.includes('Flight') && to.travel_nodes.includes('Flight'))) {
+      mode = 'Flight';
+    } else if (isSameRegion && from.travel_nodes.includes('Road')) {
+      mode = 'Road';
+    }
+
+    // Estimate duration and distance
+    let duration = '6h 00m';
+    let distance = '350 km';
+
+    if (mode === 'Flight') {
+      duration = '2h 15m';
+      distance = '850 km';
+    } else if (mode === 'Road') {
+      duration = '5h 30m';
+      distance = '280 km';
+    } else { // Train
+      duration = isSameRegion ? '6h 00m' : '14h 00m';
+      distance = isSameRegion ? '350 km' : '950 km';
+    }
+
+    // Add random variation
+    const variation = Math.floor(Math.random() * 30);
+    const h = parseInt(duration) || 0;
+    
+    return {
+      from: from.city,
+      to: to.city,
+      mode,
+      duration,
+      distance
+    };
+  }
+
+  private static generateMorningActivity(city: City, focus: LearningGoal, isArrival: boolean, site?: string): string {
     if (isArrival) {
       return `Arrive in ${city.city}. Orientation and site briefing.`;
     }
@@ -495,10 +552,12 @@ export class CircuitEngine {
     };
 
     const options = activities[focus] || ['Site visit and documentation'];
-    return options[Math.floor(Math.random() * options.length)];
+    const activity = options[Math.floor(Math.random() * options.length)];
+    
+    return site ? `${activity} at ${site}` : activity;
   }
 
-  private static generateAfternoonActivity(city: City, focus: LearningGoal): string {
+  private static generateAfternoonActivity(city: City, focus: LearningGoal, site?: string): string {
     const activities: Record<string, string[]> = {
       'Architectural Principles': [
         'Detailed documentation: Proportional systems and geometric analysis',
@@ -538,7 +597,9 @@ export class CircuitEngine {
     };
 
     const options = activities[focus] || ['Continued site documentation'];
-    return options[Math.floor(Math.random() * options.length)];
+    const activity = options[Math.floor(Math.random() * options.length)];
+    
+    return site ? `${activity} at ${site}` : activity;
   }
 
   private static generateEveningActivity(academicYear: AcademicYear, isDeparture: boolean): string {

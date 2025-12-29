@@ -35,9 +35,18 @@ export interface DayActivity {
   day: number;
   city: string;
   morning: string;
+  morning_site?: string;
   afternoon: string;
+  afternoon_site?: string;
   evening: string;
   learning_focus: LearningGoal[];
+  travel?: {
+    from: string;
+    to: string;
+    mode: string;
+    duration: string;
+    distance?: string;
+  };
 }
 
 export interface Circuit {
